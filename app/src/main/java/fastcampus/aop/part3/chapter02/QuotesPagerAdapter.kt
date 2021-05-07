@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class QuotesPagerAdapter(
-        private val quotes: List<Quote>
+        private val quotes: List<Quote>,
+        private val isNameRevealed: Boolean
 ): RecyclerView.Adapter<QuotesPagerAdapter.QuoteViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -19,7 +20,7 @@ class QuotesPagerAdapter(
     override fun getItemCount() = quotes.size
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        holder.bind(quotes[position])
+        holder.bind(quotes[position], isNameRevealed)
     }
 
     class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -27,9 +28,15 @@ class QuotesPagerAdapter(
         private val quoteTextView: TextView = itemView.findViewById(R.id.quoteTextView)
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
 
-        fun bind(quote: Quote){
+        fun bind(quote: Quote, isNameRevealed: Boolean){
             quoteTextView.text = quote.quote
-            nameTextView.text = quote.name
+
+            if (isNameRevealed){
+                nameTextView.text = quote.name
+                nameTextView.visibility = View.VISIBLE
+            } else {
+                nameTextView.visibility = View.GONE
+            }
         }
     }
 
