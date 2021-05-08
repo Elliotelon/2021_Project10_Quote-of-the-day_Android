@@ -17,10 +17,11 @@ class QuotesPagerAdapter(
                             .inflate(R.layout.item_quote, parent, false)
             )
 
-    override fun getItemCount() = quotes.size
+    override fun getItemCount() = Int.MAX_VALUE
 
     override fun onBindViewHolder(holder: QuoteViewHolder, position: Int) {
-        holder.bind(quotes[position], isNameRevealed)
+        val actualPosition = position % quotes.size
+        holder.bind(quotes[actualPosition], isNameRevealed)
     }
 
     class QuoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -29,10 +30,10 @@ class QuotesPagerAdapter(
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
 
         fun bind(quote: Quote, isNameRevealed: Boolean){
-            quoteTextView.text = quote.quote
+            quoteTextView.text = "\"${quote.quote}\""
 
             if (isNameRevealed){
-                nameTextView.text = quote.name
+                nameTextView.text = "- ${quote.name}"
                 nameTextView.visibility = View.VISIBLE
             } else {
                 nameTextView.visibility = View.GONE
